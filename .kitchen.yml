@@ -1,0 +1,18 @@
+---
+driver:
+  name: <%= ENV['KITCHEN_DRIVER'] || 'vagrant' %>
+
+provisioner:
+  name: chef_zero
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: ubuntu-14.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[example-chef-project::default]
+    attributes:
