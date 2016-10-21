@@ -1,5 +1,5 @@
 {
-  "name": "example-ruby-project",
+  "name": "example-chef-project",
   "environment": {
     "os": "ubuntu_trusty",
     "packages": [
