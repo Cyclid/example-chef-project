@@ -1,15 +1,21 @@
 ---
 driver:
-  name: <%= ENV['KITCHEN_DRIVER'] || 'vagrant' %>
+  name: dokken
+  chef_version: latest
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
+  name: dokken
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-14.04
+  - name: ubuntu-trusty
+    driver:
+      image: ubuntu:trusty
 
 suites:
   - name: default
