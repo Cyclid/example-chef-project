@@ -1,0 +1,56 @@
+---
+name: example-chef-project
+environment:
+  os: ubuntu_trusty
+  packages:
+  - git
+  - curl
+  - docker.io
+sources:
+- type: git
+  url: https://github.com/Cyclid/example-chef-project.git
+stages:
+- name: install-chefdk
+  steps:
+  - action: script
+    script:
+    - '#!/bin/bash -x'
+    - curl -s -L -O https://packages.chef.io/stable/ubuntu/12.04/chefdk_0.18.30-1_amd64.deb
+      || exit 1
+    - sudo dpkg -i chefdk_0.18.30-1_amd64.deb || exit 1
+- name: lint
+  steps:
+  - action: command
+    cmd: chef exec cookstyle
+    path: '%{workspace}/example-chef-project'
+- name: chefspec
+  steps:
+  - action: command
+    cmd: chef exec rspec
+    path: '%{workspace}/example-chef-project'
+- name: test-kitchen
+  steps:
+  - action: command
+    cmd: chef exec kitchen test --no-color
+    path: '%{workspace}/example-chef-project'
+- name: success
+  steps:
+  - action: log
+    message: 'Job %{organization}/%{job_name} (job #%{job_id}) completed successfully.'
+- name: failure
+  steps:
+  - action: log
+    message: 'Job %{organization}/%{job_name} (job #%{job_id}) failed.'
+sequence:
+- stage: install-chefdk
+  on_success: lint
+  on_failure: failure
+- stage: lint
+  on_success: chefspec
+  on_failure: failure
+- stage: chefspec
+  on_success: test-kitchen
+  on_failure: failure
+- stage: test-kitchen
+  on_success: success
+  on_failure: failure
