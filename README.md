@@ -5,8 +5,4 @@ This is a simple project that demonstrates how to test a Chef cookbook with Cycl
 
 ### A note about Test Kitchen
 
-We love Test Kitchen, but you'll note that the Cyclid job doesn't actually run it. That's because Test Kitchen needs to create its own virtual machines or containers to run the tests.
-
-Perhaps you use something like the kitchen-google driver to create Test Kitchen instances in the cloud, but this simple example can't assume you have a Google account; even if it did, we can't provide all of the login details & keys needed here.
-
-So while it's possible, we didn't want to over-complicate this example.
+This example uses the kitchen-docken plugin to run Test Kitchen on top of Docker. This works fine if you're running Cyclid with any of the Cloud builders like Google Compute Engine or Digitalocean, but might not work so well if you're using Docker or LXD based build hosts. So just be aware that if you're testing your own Cyclid installation: it may be easier if you remove or disable running Test Kitchen in this example!
