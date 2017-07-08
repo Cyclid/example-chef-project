@@ -22,8 +22,8 @@
           "action":"script",
           "script":[
             "#!/bin/bash -x",
-            "curl -s -L -O https://packages.chef.io/stable/ubuntu/12.04/chefdk_0.18.30-1_amd64.deb || exit 1",
-            "sudo dpkg -i chefdk_0.18.30-1_amd64.deb || exit 1"
+            "curl -s -L -O https://packages.chef.io/files/stable/chefdk/1.5.0/ubuntu/14.04/chefdk_1.5.0-1_amd64.deb || exit 1",
+            "sudo dpkg -i chefdk_1.5.0-1_amd64.deb || exit 1"
           ]
         }
       ]
@@ -80,17 +80,14 @@
   "sequence":[
     {
       "stage":"install-chefdk",
-      "on_success":"lint",
       "on_failure":"failure"
     },
     {
       "stage":"lint",
-      "on_success":"chefspec",
       "on_failure":"failure"
     },
     {
       "stage":"chefspec",
-      "on_success":"test-kitchen",
       "on_failure":"failure"
     },
     {
