@@ -14,25 +14,27 @@ stages:
   steps:
   - action: script
     script:
-    - '#!/bin/bash -x'
+    - "#!/bin/bash -x"
     - curl -s -L -O https://packages.chef.io/files/stable/chefdk/1.5.0/ubuntu/14.04/chefdk_1.5.0-1_amd64.deb
       || exit 1
-    - sudo dpkg -i chefdk_1.5.0-1_amd64.deb || exit 1
+    - dpkg -i chefdk_1.5.0-1_amd64.deb || exit 1
+    sudo: true
 - name: lint
   steps:
   - action: command
     cmd: chef exec cookstyle
-    path: '%{workspace}/example-chef-project'
+    path: "%{workspace}/example-chef-project"
 - name: chefspec
   steps:
   - action: command
     cmd: chef exec rspec
-    path: '%{workspace}/example-chef-project'
+    path: "%{workspace}/example-chef-project"
 - name: test-kitchen
   steps:
   - action: command
     cmd: chef exec kitchen test --no-color
-    path: '%{workspace}/example-chef-project'
+    path: "%{workspace}/example-chef-project"
+    sudo: true
 - name: success
   steps:
   - action: log
